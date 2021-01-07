@@ -4,8 +4,6 @@ class Drawer:
     def __init__(self):
         pass
     def drawit(self,img):
-        plt.imshow(img)
-        plt.show()
         edges = self.ideal_edges(img)
         patches = segmentation.watershed((edges))
         to_fill=self.fill_in(patches,img)
