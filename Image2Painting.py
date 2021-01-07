@@ -22,7 +22,7 @@ class Drawer:
         num_colors = np.max(patches)
         patches-=1
         mi = np.min(patches)
-        new_arr = self.find_mean(img,patches,num_colors)
+        new_arr = self.find_median(img,patches,num_colors)
         to_fill =np.zeros_like(img)
         for i in range(len(patches)):
             for j in range(len(patches[0])):
@@ -45,7 +45,7 @@ class Drawer:
                     edges[i][j]=1
         edges=edges>0
         return edges
-    def find_mean(self,img,edges,num_colors):
+    def find_median(self,img,edges,num_colors):
         arr = [[] for i in range(num_colors)]
         for i in range(len(edges)):
             for j in range(len(edges[0])):
@@ -54,9 +54,8 @@ class Drawer:
         new_arr = [0 for i in range(num_colors)]
         for i in range(len(arr)):
             ar = np.array(arr[i])
-            mean = np.array([np.mean(ar[:,0]),np.mean(ar[:,1]),np.mean(ar[:,2])])
-            new_arr[i] = mean
+            median = np.array([np.median(ar[:,0]),np.median(ar[:,1]),np.median(ar[:,2])])
+            new_arr[i] = median
         return new_arr
-
 
 
