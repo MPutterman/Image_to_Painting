@@ -6,8 +6,8 @@ class Drawer:
         pass
     def drawit(self,image):
         length = len(image)
-        ratio = length/1080
-        L1=1080
+        ratio = length/900
+        L1=900
         length2 = len(image[0])
         L2= round(length2/ratio)
         img = resize(image,(L1,L2,3))
@@ -24,7 +24,7 @@ class Drawer:
     def likely_aliasing(self,to_fill,img):
         diff =abs(color.rgb2gray(img-to_fill))
         diff = diff>np.mean(diff)
-        size=  4
+        size=  3
         diff = morphology.opening(diff,morphology.disk(size))
         diff = filters.sobel(diff)>0
         return diff
