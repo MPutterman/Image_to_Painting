@@ -1,7 +1,6 @@
 from skimage import morphology, filters,color,segmentation,util,measure
 import numpy as np 
-from skimage.transform import resize
-class Drawer:
+from skimage.transform import resizeclass Drawer:
     def __init__(self):
         pass
     def drawit(self,image):
@@ -20,7 +19,22 @@ class Drawer:
         new_edges = self.likely_aliasing(to_fill,img)
         new_edges = new_edges | edges
         new_patches = segmentation.watershed(new_edges)
-        return self.fill_in(new_patches,img)
+
+        return self.median(self.fill_in(new_patches,img))
+    def median(self,img):
+        c1 = img[:,:,1]
+        c0=img[:,:,0]
+        c2=img[:,:,2]
+        c0=filters.median(c0,selem=morphology.disk(3))
+        c1=filters.median(c1,selem=morphology.disk(3))
+        c2=filters.median(c2,selem=morphology.disk(3))
+        c3 = np.zeros((len(c0),len(c0[0]),3))
+        for i in range(len(c3)):
+            for j in range(len(c3[0])):
+                c3[i][j][0] = c0[i][j]
+                c3[i][j][1] = c1[i][j]
+                c3[i][j][2] = c2[i][j]
+        return c3
     def likely_aliasing(self,to_fill,img):
         diff =abs(color.rgb2gray(img-to_fill))
         diff = diff>np.mean(diff)
@@ -68,5 +82,3 @@ class Drawer:
             mean = np.array([np.mean(ar[:,0]),np.mean(ar[:,1]),np.mean(ar[:,2])])
             new_arr[i] = mean
         return new_arr
-
-
