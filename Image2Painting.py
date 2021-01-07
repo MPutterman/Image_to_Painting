@@ -1,9 +1,18 @@
 from skimage import morphology, filters,color,segmentation,util,measure
 import numpy as np 
+from skimage.transform import resize
 class Drawer:
     def __init__(self):
         pass
-    def drawit(self,img):
+    def drawit(self,image):
+        length = len(image)
+        ratio = length/1080
+        L1=1080
+        length2 = len(image[0])
+        L2= round(length2/ratio)
+        img = resize(image,(L1,L2,3))
+        plt.imshow(img)
+        plt.show()
         edges = self.ideal_edges(img)
         patches = segmentation.watershed((edges))
         to_fill=self.fill_in(patches,img)
@@ -15,7 +24,7 @@ class Drawer:
     def likely_aliasing(self,to_fill,img):
         diff =abs(color.rgb2gray(img-to_fill))
         diff = diff>np.mean(diff)
-        size=  len(img)*len(img[0])/200000
+        size=  4
         diff = morphology.opening(diff,morphology.disk(size))
         diff = filters.sobel(diff)>0
         return diff
@@ -36,8 +45,6 @@ class Drawer:
         im1=img[:,:,1]
         im2=img[:,:,2]
         im0=img[:,:,0]
-        tim = time.time()
-        
         i0=(np.digitize(im0,filters.threshold_multiotsu(im0,3)))
         i1=(np.digitize(im1,filters.threshold_multiotsu(im1,3)))
         i2=(np.digitize(im2,filters.threshold_multiotsu(im2,3)))
