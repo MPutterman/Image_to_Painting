@@ -57,11 +57,6 @@ class Drawer:
             mean = np.array([np.mean(ar[:,0]),np.mean(ar[:,1]),np.mean(ar[:,2])])
             new_arr[i] = mean
         return new_arr
-    def auto_detect_painting_level(self,img):
-        orig = 10*abs((np.std(img[:,:,2])+np.std(img[:,:,1])+np.std(img[:,:,0]))/(np.max(img)-np.min(img)))
-        offset =1 
-        interval=2
-        num = round((orig-offset)/interval)*interval+offset
-        return max(num,3)
+
 
 
