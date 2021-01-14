@@ -38,7 +38,7 @@ from skimage.transform import resizeclass Drawer:
     def likely_aliasing(self,to_fill,img):
         diff =abs(color.rgb2gray(img-to_fill))
         diff = diff>np.mean(diff)
-        size=  3
+        size=  2
         diff = morphology.opening(diff,morphology.disk(size))
         diff = filters.sobel(diff)>0
         return diff
@@ -59,9 +59,9 @@ from skimage.transform import resizeclass Drawer:
         im1=img[:,:,1]
         im2=img[:,:,2]
         im0=img[:,:,0]
-        i0=(np.digitize(im0,filters.threshold_multiotsu(im0,3)))
-        i1=(np.digitize(im1,filters.threshold_multiotsu(im1,3)))
-        i2=(np.digitize(im2,filters.threshold_multiotsu(im2,3)))
+        i0=(np.digitize(im0,filters.threshold_multiotsu(im0,4)))
+        i1=(np.digitize(im1,filters.threshold_multiotsu(im1,4)))
+        i2=(np.digitize(im2,filters.threshold_multiotsu(im2,4)))
         
         edges=(abs(filters.sobel(i0))+abs(filters.sobel(i1))+abs(filters.sobel(i2)))
         for i in range(len(img)):
