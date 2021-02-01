@@ -23,7 +23,7 @@ class Drawer:
         length2 = len(image[0])
         L2= round(length2/ratio)
         img = resize(image,(L1,L2,3))
-        plt.imshow(img)
+        #plt.imshow(img)
         ##plt.show()
         edges = self.ideal_edges(img)
         
