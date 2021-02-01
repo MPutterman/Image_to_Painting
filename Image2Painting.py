@@ -137,6 +137,9 @@ class Drawer:
             mean = np.array([np.mean(ar[:,0]),np.mean(ar[:,1]),np.mean(ar[:,2])])
             new_arr[i] = mean
         return new_arr
+d = Drawer()
+plt.imshow(d.drawit(img))
+plt.show()
 
 
 
